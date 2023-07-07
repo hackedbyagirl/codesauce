@@ -33,6 +33,30 @@ def create_chunked_prompts(chat_history: list, code_blocks: list, coding_task: s
 
         else:
             user_prompt = prompt_functions['intermediate'](block)
+            chat_history.append(user_prompt)
+
+
+    return chat_history
+
+def create_chunked_reference_prompts(chat_history: list, code_blocks: list, ref_prompt_functions: dict, ai_messages: dict) -> None:
+    # Create a user prompt for each code block
+    for i, block in enumerate(code_blocks):
+        if i == 0:
+            user_prompt = ref_prompt_functions['initial'](block)
+            ai_prompt_message = build_ai_assistant_prompt(ai_messages['initial'])
+
+            chat_history.append(user_prompt)
+            chat_history.append(ai_prompt_message)
+
+        elif i == len(code_blocks) - 1:
+            user_prompt = ref_prompt_functions['final'](block)
+            ai_prompt_message = build_ai_assistant_prompt(ai_messages['final'])
+
+            chat_history.append(user_prompt)
+            chat_history.append(ai_prompt_message)
+
+        else:
+            user_prompt = ref_prompt_functions['intermediate'](block)
             ai_prompt_message = build_ai_assistant_prompt(ai_messages['intermediate'])
 
             chat_history.append(user_prompt)

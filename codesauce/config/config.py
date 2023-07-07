@@ -45,6 +45,7 @@ class Config(object):
         cls.chat_history_dir = "logs/chat_history"
         cls.improvement_notes_dir = "logs/improvement_notes"
         cls.generated_code_dir = "logs/generated_code"
+        cls.updated_code_dir = "logs/updated_code"
 
         # Will overwrite provided variables above
         cls.load_env()
@@ -87,6 +88,7 @@ class Config(object):
 
         cls.create_chat_history_dir()
         cls.create_improvement_notes_dir()
+        cls.create_updated_code_dir()
         cls.create_generated_code_dir()
 
     @classmethod
@@ -101,6 +103,12 @@ class Config(object):
 
         os.makedirs(cls.improvement_notes_dir, exist_ok=True)
 
+    @classmethod
+    def create_updated_code_dir(cls):
+        """Creates chat log directory"""
+
+        os.makedirs(cls.updated_code_dir, exist_ok=True)
+    
     @classmethod
     def create_generated_code_dir(cls):
         """Creates chat log directory"""

@@ -55,7 +55,7 @@ def build_code_cleaning_user_prompt(code, context=None):
     return build_user_prompt(code_cleaning_prompt)
 
 
-def build_multi_code_cleaning_final_prompt(code):
+def build_multi_code_cleaning_final_prompt(code, context=None):
     last_code_review_prompt = (
         f"""Code to Clean and Optimize:\n{code}\n\nThis is the last code block."""
     )
@@ -66,6 +66,11 @@ def build_multi_code_cleaning_final_prompt(code):
 ########################################################################
 # Code Generation Prompt Builders
 ########################################################################
+def build_new_code_generator_prompt(context):
+    code_gen_prompt = f"""Code Generator Task:\n{context}"""
+
+    return build_user_prompt(code_gen_prompt)
+
 def build_code_generator_prompt(code, context):
     code_gen_prompt = f"""Code Generator Task:\n{context}\nCode:\n{code}"""
 

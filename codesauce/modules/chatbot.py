@@ -16,9 +16,12 @@ from codesauce.prompts.user_prompt_builder import build_user_question_prompt
 from codesauce.actions.input import get_project_description
 from codesauce.prompts.user_prompt_builder import build_project_user_prompt
 from codesauce.prompts.system_prompt_builder import (
-    build_project_description_prompt,
     build_ai_assistant_prompt,
+    build_system_prompt
 )
+
+PROJ_TASK = 'project_task'
+PROJ_PROMPT = 'proj_prompt'
 
 
 class ChatBot(object):
@@ -35,7 +38,7 @@ class ChatBot(object):
         proj_desc = self.request_project_description()
 
         if proj_desc != False:
-            proj_system_prompt = build_project_description_prompt()
+            proj_system_prompt = build_system_prompt(PROJ_TASK, PROJ_PROMPT)
             proj_user_prompt = build_project_user_prompt(proj_desc)
 
             self.chat_history.append(proj_system_prompt)

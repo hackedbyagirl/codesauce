@@ -35,7 +35,7 @@ CLEANED_CODE
 SUMMARY
 """
 
-CC_MULTI_SYSTEM_PROMPT = """
+CCM_SYSTEM_PROMPT = """
 For this task, your prime responsibility is to perform code cleaning and optimization on on user-provided code. This process demands refactoring and optimization of code to bolster its readability, maintainability, and efficiency. It is crucial to strictly adhere to the coding standards of the language used in the project to ensure consistency and quality.
 
 Your responsibilities include:

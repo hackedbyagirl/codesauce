@@ -7,7 +7,7 @@ from time import sleep
 
 # from codesauce.utils.colors import Color
 from codesauce.modules.interaction import Interaction
-from codesauce.functions.function_definitions import ai_function_definitions
+from codesauce.functions.function_definitions import function_definitions
 from codesauce.actions.optimize_code import OptimizeCode
 from codesauce.actions.generate_code import GenerateCode
 #from codesauce.actions.restructure_directory import RestructureDirectory
@@ -25,7 +25,7 @@ class FunctionCall(Interaction):
                 response = self.openai_api.create(
                     model=self.model,
                     messages=messages,
-                    functions=ai_function_definitions,
+                    functions=function_definitions,
                     function_call="auto",
                     temperature=self.temperature,
                 )
