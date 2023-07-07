@@ -1,0 +1,77 @@
+## Directory Structure
+```
+codesauce/
+├── .gitignore
+├── README.md
+├── codesauce.py
+├── requirements.txt
+├── pyproject.toml
+├── codesauce/
+    ├── __main__.py
+    ├── __init__.py
+    ├── actions/
+        ├── new_code.md
+        ├── restructure_directory.py.py
+        ├── optimize_code.py
+        ├── input.py
+        ├── __init__.py
+        ├── generate_code.py
+    ├── src/
+        ├── codesauce.py
+        ├── __init__.py
+    ├── modules/
+        ├── function_call.py
+        ├── understand_directory.py
+        ├── function_interaction.py
+        ├── interaction.py
+        ├── chatbot.py
+        ├── __init__.py
+        ├── general_interaction.py
+    ├── prompts/
+        ├── system_prompt_builder.py
+        ├── project_prompts.py
+        ├── directory_prompts.py
+        ├── philosophy.py
+        ├── __init__.py
+        ├── user_prompt_builder.py
+        ├── code_generation_prompts.py
+        ├── code_clean_prompts.py
+    ├── utils/
+        ├── file_extensions.py
+        ├── colors.py
+        ├── display.py
+        ├── __init__.py
+        ├── cli.py
+    ├── functions/
+        ├── function_definitions.py
+        ├── __init__.py
+    ├── tools/
+        ├── chunk_code.py
+        ├── loader.py
+        ├── __init__.py
+    ├── config/
+        ├── config.py
+        ├── __init__.py
+├── docs/
+    ├── roadmap/
+        ├── integration_ideas.md
+        ├── integration_steps.md
+    ├── examples/
+├── logs/
+    ├── directory_structure.md
+    ├── improvement_notes/
+        ├── generate_code_generated_summary.txt
+        ├── function_definitions_cleaned_summary.txt
+    ├── updated_code/
+    ├── chat_history/
+        ├── chat_log_2023-07-07_13-06-17.json
+├── config/
+    ├── .env.test
+├── imgs/
+    ├── kat.png
+├── .github/
+    ├── ISSUE_TEMPLATES/
+        ├── development_documentation.md
+        ├── bug_report.md
+        ├── feature_request.md
+```

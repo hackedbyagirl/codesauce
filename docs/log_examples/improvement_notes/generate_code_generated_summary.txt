@@ -1,0 +1,9 @@
+To handle both the `create_new_code_definition` and `generate_and_update_code_definition` logic in the `GenerateCode` class, you can update the `interact` method as follows:
+
+
+
+
+
+This updated logic checks if the `instructions` key is present in the `arguments` dictionary. If it is, it handles the `create_new_code_definition` logic by extracting the necessary parameters and generating the code accordingly. Otherwise, it assumes the `generate_and_update_code_definition` logic and proceeds with the code generation and update process based on the provided references.
+
+Please note that this is a general implementation based on the provided code snippets. You may need to adjust the logic further based on the specific requirements and functionality of the `create_new_code_definition` and `generate_and_update_code_definition` functions.
