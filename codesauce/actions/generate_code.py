@@ -42,7 +42,11 @@ class GenerateCode(FunctionInteraction):
         Color.print("{B}Launching Code Generation ...\n")
         file = self.arguments["filename"]
         coding_task = self.arguments["coding_task"]
-        references = self.arguments["references"]
+
+        if "references" in self.arguments:
+            references = self.arguments["references"]
+        else:
+            references = None
 
         code_file = self.load_file(file)
 

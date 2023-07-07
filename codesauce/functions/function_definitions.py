@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
-# Define the AI function for code review
-optimize_code_func_definition = {
+optimize_code_definition = {
     "name": "optimize_code",
     "description": "Perform crucial code cleaning operations, such as refactoring and optimizing code to make it more readable, maintainable, and efficient, adhering to the coding standards of the respective language.",
     "parameters": {
@@ -24,7 +23,7 @@ optimize_code_func_definition = {
     },
 }
 
-generate_and_update_code_func_definition = {
+generate_and_update_code_definition = {
     "name": "generate_and_update_code",
     "description": "Performs dynamic code generation based on clearly defined coding tasks or goals and integrates it into an exisiting file. Also uses reference files as context if any are provided.",
     "parameters": {
@@ -52,7 +51,7 @@ generate_and_update_code_func_definition = {
     },
 }
 
-create_new_code_func_definition = {
+create_new_code_definition = {
     "name": "create_and_generate_code",
     "description": "Performs dynamic code generation based on clearly defined coding tasks or goals. Additionally, the user may include a filename for the generated code and/or reference files that can provide valuable context, if available.",
     "parameters": {
@@ -81,7 +80,7 @@ create_new_code_func_definition = {
     },
 }
 
-restructure_directory_func_definition = {
+restructure_directory_definition = {
     "name": "restructure_directory",
     "description": "Restructure the current directory to be more efficient.",
     "parameters": {
@@ -95,7 +94,7 @@ restructure_directory_func_definition = {
     },
 }
 
-annotate_code_func_definition = {
+annotate_code_definition = {
     "name": "annotate_code",
     "description": "Add helpful comments to the code, explaining complex sections or detailing the purpose and functionality of specific blocks of code for a specific file.",
     "parameters": {
@@ -118,11 +117,10 @@ annotate_code_func_definition = {
     },
 }
 
-# Updated AI function definitions
-ai_function_definitions = [
-    optimize_code_func_definition,
-    generate_and_update_code_func_definition,
-    annotate_code_func_definition,
-    restructure_directory_func_definition,
-    create_new_code_func_definition,
+function_definitions = [
+    optimize_code_definition,
+    generate_and_update_code_definition,
+    annotate_code_definition,
+    restructure_directory_definition,
+    create_new_code_definition,
 ]

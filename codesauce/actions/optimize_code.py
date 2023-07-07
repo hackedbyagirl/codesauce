@@ -34,7 +34,13 @@ class OptimizeCode(FunctionInteraction):
 
         Color.print("{B}Launching Code Cleaning and Optimization...\n")
         filenames = self.arguments["files"]
-        context = self.arguments["context"]
+        #context = self.arguments["context"]
+        
+        if "context" in self.arguments:
+           context = self.arguments["context"]
+        else:
+            context = None
+
 
         if context == "":
             context = None
