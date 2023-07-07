@@ -1,4 +1,4 @@
-def chunk_code(self, file_path: str) -> list:
+def chunk_code(file_path: str) -> list:
     # Load the file and return its contents
     with open(file_path, "r") as file:
         file_path = file.readlines()
