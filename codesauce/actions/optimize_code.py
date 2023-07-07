@@ -78,7 +78,7 @@ class OptimizeCode(FunctionInteraction):
                 "Please select intended file for cleaning and optimization",
             ).ask()
 
-            return file_path
+            return str(file_path)
 
         # If multiple matches were found, ask the user to select one
         elif len(matches) > 1:

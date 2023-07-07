@@ -5,6 +5,7 @@ from codesauce.prompts.philosophy import GENERAL_PHILOSOPHY
 
 from codesauce.prompts.project_prompts import PROJ_TASK_NAME, PROJ_SYSTEM_PROMPT
 from codesauce.prompts.code_clean_prompts import CC_TASK_NAME
+from codesauce.prompts.code_generation_prompts import CG_TASK_NAME
 
 ########################################################################
 # Main User Prompt Builders
@@ -40,7 +41,11 @@ def build_project_description_prompt():
 ########################################################################
 # Code Cleaning Prompts
 ########################################################################
-def build_code_cleaning_sys_prompt(
-    prompt: str,
-):
+def build_code_cleaning_sys_prompt(prompt: str):
+    return build_system_prompt(CC_TASK_NAME, prompt)
+
+########################################################################
+# Code Generation Prompts
+########################################################################
+def build_code_cleaning_sys_prompt(prompt: str):
     return build_system_prompt(CC_TASK_NAME, prompt)

@@ -15,15 +15,13 @@ from codesauce.prompts.user_prompt_builder import (
     build_multi_code_generator_prompt,
     build_multi_code_generator_final_prompt,
 )
-from codesauce.prompts.code_gen_prompt import (
-    CG_TASK_NAME,
+from codesauce.prompts.code_generation_prompts import (
     CG_SYSTEM_PROMPT,
-    CG_MULTI_SYSTEM_PROMPT,
     CG_REF_SYSTEM_PROMPT,
 )
 from codesauce.prompts.system_prompt_builder import (
     build_ai_assistant_prompt,
-    build_code_cg_ref_sys_prompt,
+    build_code_cleaning_sys_prompt,
 )
 from codesauce.prompts.user_prompt_builder import (
     build_code_reference_user_prompt,
@@ -49,7 +47,7 @@ class GenerateCode(FunctionInteraction):
         code_file = self.load_file(file)
 
         if references:
-            system_prompt = build_system_prompt(CG_TASK_NAME, CG_REF_SYSTEM_PROMPT)
+            system_prompt = build_code_cleaning_sys_prompt(CG_REF_SYSTEM_PROMPT)
             self.chat_history.append(system_prompt)
 
             for ref in references:
@@ -58,8 +56,15 @@ class GenerateCode(FunctionInteraction):
 
                 self.create_prompts(code_file, coding_task)
 
-                ai_response = self.ask_ai()
+        else:
+            system_prompt = build_code_cleaning_sys_prompt(CG_SYSTEM_PROMPT)
+            self.chat_history.append(system_prompt)
 
+            self.create_prompts(code_file, coding_task)
+
+        ai_response = self.ask_ai()
+        self.save_response(ai_response, file, code_file)
+        
         function_response = {
             "actions": "Loaded file, recieved generated code, and saved response to file.",
             "completed": True,
@@ -80,10 +85,16 @@ class GenerateCode(FunctionInteraction):
                 if filename == file_name:
                     matches.append(os.path.join(root, filename))
 
-        # If no matches were found, return an empty string
         if not matches:
-            print("No file with the specified name was found.")
-            return ""
+            Color.print(
+                "{Y} Warning: {W}No file with the specified name was found. Please select a different file."
+            )
+
+            file_path = questionary.path(
+                "Please select intended file for cleaning and optimization",
+            ).ask()
+
+            return str(file_path)
 
         # If multiple matches were found, ask the user to select one
         elif len(matches) > 1:
