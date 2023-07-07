@@ -10,9 +10,9 @@ from codesauce.prompts.user_prompt_builder import build_code_cleaning_user_promp
 from codesauce.prompts.code_clean_prompts import CC_SYSTEM_PROMPT, CC_MULTI_SYSTEM_PROMPT
 
 from codesauce.utils.colors import Color
-from codesauce.modules.general import GeneralInteraction
+from codesauce.modules.general_interaction import GeneralInteraction
 
-from codesauce.functions.function_interaction import FunctionInteraction
+from codesauce.modules.function_interaction import FunctionInteraction
 
 AI_FIRST_MESSAGE = "First Message received, continue."
 AI_MESSAGE = "Message received, continue."
@@ -24,11 +24,14 @@ class OptimizeCode(FunctionInteraction):
         Color.print("{B}Launching Code Cleaning and Optimization...\n")
         filenames = self.arguments['files']
         context = self.arguments['context']
+
+        if context == "":
+            context = None
         
         for file in filenames:
             full_file_path = self.load_file(file)
 
-            self.create_prompts(full_file_path)
+            self.create_prompts(full_file_path, context)
         
             ai_response = self.ask_ai()
 
@@ -76,7 +79,7 @@ class OptimizeCode(FunctionInteraction):
         else:
             return matches[0]
     
-    def create_prompts(self, loaded_file: str):
+    def create_prompts(self, loaded_file: str, context: str = None):
         # Load the file and return its contents
         with open(loaded_file, 'r') as file:
             loaded_file = file.readlines()
@@ -99,7 +102,7 @@ class OptimizeCode(FunctionInteraction):
             # Create a user prompt for each code block
             for i, block in enumerate(code_blocks):
                 if i == 0:
-                    user_prompt = build_code_cleaning_user_prompt(block)
+                    user_prompt = build_code_cleaning_user_prompt(block, context)
                     ai_prompt_message = build_ai_assistant_prompt(AI_FIRST_MESSAGE)
 
                     self.chat_history.append(user_prompt)
@@ -118,11 +121,10 @@ class OptimizeCode(FunctionInteraction):
 
         else:
             system_prompt = build_code_cleaning_sys_prompt(CC_SYSTEM_PROMPT)
-            user_prompt = build_code_cleaning_user_prompt(loaded_file)
+            user_prompt = build_code_cleaning_user_prompt(loaded_file, context)
             
             self.chat_history.append(system_prompt)
             self.chat_history.append(user_prompt)
-            #return system_prompt, user_prompt
 
     def ask_ai(self):
         ai_bot = GeneralInteraction(self.chat_history)

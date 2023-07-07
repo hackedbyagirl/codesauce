@@ -26,7 +26,7 @@ def build_project_user_prompt(description: str):
 ########################################################################
 # Code Cleaning Prompt Builders
 ########################################################################
-def build_code_cleaning_user_prompt(code, context = None):
+def build_code_cleaning_user_prompt(code, context=None):
     if context:
         code_cleaning_prompt = f"""Code to Clean and Optimize:\n{code}\nContext:\n{context}"""
     else:
