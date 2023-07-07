@@ -4,7 +4,12 @@
 import os
 import questionary
 
+
+from codesauce.utils.colors import Color
+from codesauce.modules.general_interaction import GeneralInteraction
+from codesauce.modules.function_interaction import FunctionInteraction
 from codesauce.config.config import Config
+from codesauce.tools.chunk_code import chunk_code
 from codesauce.prompts.system_prompt_builder import (
     build_ai_assistant_prompt,
     build_code_cleaning_sys_prompt,
@@ -19,10 +24,6 @@ from codesauce.prompts.code_clean_prompts import (
     CC_MULTI_SYSTEM_PROMPT,
 )
 
-from codesauce.utils.colors import Color
-from codesauce.modules.general_interaction import GeneralInteraction
-
-from codesauce.modules.function_interaction import FunctionInteraction
 
 AI_FIRST_MESSAGE = "First Message received, continue."
 AI_MESSAGE = "Message received, continue."
