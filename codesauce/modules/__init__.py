@@ -5,4 +5,11 @@ from codesauce.modules.function_call import FunctionCall
 from codesauce.modules.general_interaction import GeneralInteraction
 from codesauce.modules.understand_directory import UnderstandDirectory
 
-__all__ = ["ChatBot","Interaction", "FunctionInteraction", "FunctionCall", "GeneralInteraction", "UnderstandDirectory"]
+__all__ = [
+    "ChatBot",
+    "Interaction",
+    "FunctionInteraction",
+    "FunctionCall",
+    "GeneralInteraction",
+    "UnderstandDirectory",
+]

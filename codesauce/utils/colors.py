@@ -4,6 +4,7 @@
 import re
 from colored import attr, fg, stylize
 
+
 class Color(object):
 
     """Helpers for printing to terminal"""

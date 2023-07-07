@@ -3,6 +3,7 @@
 # Imports
 from codesauce.utils.colors import Color
 
+
 def get_project_description():
     # Get project Description
     Color.print(
@@ -23,7 +24,9 @@ def get_project_description():
 
 
 def get_user_question():
-    Color.print("{Y}NOTE: {W}Use Ctrl-D (or Ctrl-Z on Windows) to submit question when finished.")
+    Color.print(
+        "{Y}NOTE: {W}Use Ctrl-D (or Ctrl-Z on Windows) to submit question when finished."
+    )
     Color.print("\n{G}Question: ")
     question = []
     try:
@@ -39,4 +42,3 @@ def get_user_question():
         return False
     else:
         return results
-

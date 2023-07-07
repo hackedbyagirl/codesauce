@@ -5,6 +5,7 @@ from time import sleep
 from codesauce.utils.colors import Color
 from codesauce.modules.interaction import Interaction
 
+
 class UnderstandDirectory(Interaction):
     def interact(self, messages):
         max_retry = 7
@@ -25,7 +26,7 @@ class UnderstandDirectory(Interaction):
                     msg = delta.get("content", "")
                     chat.append(msg)
 
-                chat_response = {"role": "assistant", "content": "".join(chat)} 
+                chat_response = {"role": "assistant", "content": "".join(chat)}
                 self.chat_history.append(chat_response)
                 break
 

@@ -36,14 +36,17 @@ class CLI(object):
         """Launch main CLI"""
 
         while True:
-            method = questionary.select("Please select a method for how you would like to provide your code:", choices=["Current Directory", "Directory Path", "Exit"], style=custom_style,
-).ask() 
+            method = questionary.select(
+                "Please select a method for how you would like to provide your code:",
+                choices=["Current Directory", "Directory Path", "Exit"],
+                style=custom_style,
+            ).ask()
             if method == "Exit":
                 Config.exit(1)
-                                    
+
             if method == "Current Directory":
                 self.handle_cwd()
-            
+
             if method == "Directory Path":
                 self.handle_path()
 
@@ -62,19 +65,18 @@ class CLI(object):
 
         Color.print("{G}Action: {W}Retrieving Code from Local Code Repository")
         Config.set_workspace_path(dir_path)
-        
+
         loader = Loader()
         loader.load()
-        
+
         chatbot = ChatBot()
         chatbot.interact()
-        
 
     def handle_cwd(self):
         """
         Launches loader that handles current directory
         """
-        
+
         from codesauce.modules.chatbot import ChatBot
         from codesauce.tools.loader import Loader
 
@@ -84,7 +86,6 @@ class CLI(object):
 
         loader = Loader()
         loader.load()
-        
+
         chatbot = ChatBot()
         chatbot.interact()
-    

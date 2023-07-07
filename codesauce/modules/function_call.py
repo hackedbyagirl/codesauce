@@ -4,7 +4,8 @@
 import json
 
 from time import sleep
-#from codesauce.utils.colors import Color
+
+# from codesauce.utils.colors import Color
 from codesauce.modules.interaction import Interaction
 from codesauce.functions.function_definitions import ai_function_definitions
 from codesauce.actions.optimize_code import OptimizeCode
@@ -25,21 +26,20 @@ class FunctionCall(Interaction):
                 response = self.openai_api.create(
                     model=self.model,
                     messages=messages,
-                        functions=ai_function_definitions,
-                        function_call="auto",
-                    temperature=self.temperature,               
+                    functions=ai_function_definitions,
+                    function_call="auto",
+                    temperature=self.temperature,
                 )
 
                 response_message = response.choices[0].message
                 self.chat_history.append(response_message)
 
-
                 # Check if 'function_call' is in the reply_content
-                if 'function_call' in response_message.to_dict():
-                    function_call = response_message.to_dict()['function_call']
-                    function_name = function_call['name']
-                    function_arguments = function_call['arguments']
-                    
+                if "function_call" in response_message.to_dict():
+                    function_call = response_message.to_dict()["function_call"]
+                    function_name = function_call["name"]
+                    function_arguments = function_call["arguments"]
+
                     available_functions = {
                         "optimize_code": OptimizeCode,
                         "generate_and_update_code": GenerateCode,
@@ -47,9 +47,11 @@ class FunctionCall(Interaction):
                         "restructure_directory": RestructureDirectory,
                         "annotate_code": AnnotateCode,
                     }
-                    
+
                     # Test1
-                    function_to_call = available_functions[function_name](self.chat_history)
+                    function_to_call = available_functions[function_name](
+                        self.chat_history
+                    )
                     f_arguments = json.loads(function_arguments)
                     function_response = function_to_call.interact(f_arguments)
 
@@ -61,12 +63,11 @@ class FunctionCall(Interaction):
                         }
                     )
 
-
                 else:
                     ai_chat = GeneralInteraction(self.chat_history)
                     ai_chat.interact(self.chat_history)
                 break
-            
+
             except Exception as oops:
                 print(f'\n\nError communicating with OpenAI: "{oops}"')
                 if "maximum context length" in str(oops):

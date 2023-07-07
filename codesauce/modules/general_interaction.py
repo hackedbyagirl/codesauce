@@ -5,8 +5,9 @@ from time import sleep
 from codesauce.utils.colors import Color
 from codesauce.modules.interaction import Interaction
 
+
 class GeneralInteraction(Interaction):
-     def interact(self, messages):
+    def interact(self, messages):
         max_retry = 7
         retry = 0
         while True:
@@ -27,8 +28,8 @@ class GeneralInteraction(Interaction):
                     chat.append(msg)
                 print()
 
-                chat_response = {"role": "assistant", "content": "".join(chat)}          
-                self.chat_history.append(chat_response)                
+                chat_response = {"role": "assistant", "content": "".join(chat)}
+                self.chat_history.append(chat_response)
                 break
 
             except Exception as oops:

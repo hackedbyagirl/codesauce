@@ -66,9 +66,9 @@ dirs_ignore = [
     ".installed.cfg",  # Distribution / packaging
     "MANIFEST",  # Distribution / packaging
     ".chroma",  # Chroma
-    ".git", #git information
-    ".ruff_cache", #ruff information
-    "chat_history_logs",#chat history logs
-    "cleaned_code",#cleaned code
-    "generated_code",#generated code
+    ".git",  # git information
+    ".ruff_cache",  # ruff information
+    "chat_history_logs",  # chat history logs
+    "cleaned_code",  # cleaned code
+    "generated_code",  # generated code
 ]

@@ -18,7 +18,7 @@ class Config(object):
     @classmethod
     def init(cls):
         """
-            Sets up default initial configuration values.
+        Sets up default initial configuration values.
         """
 
         if cls.initialized:
@@ -49,7 +49,7 @@ class Config(object):
         # Will overwrite provided variables above
         cls.load_env()
         cls.create_log_dirs()
-        
+
     ############################################
     @classmethod
     def set_workspace_path(cls, workspace_path: str):
@@ -61,28 +61,30 @@ class Config(object):
         """Saves chat log to file"""
         chat_history_file = os.path.join(cls.chat_history_dir, chat_filename)
 
-        with open(chat_history_file, 'w') as f:
+        with open(chat_history_file, "w") as f:
             json.dump(chat_history, f)
-        
+
     @classmethod
     def load_env(cls):
         """Gets Environmental Variables"""
 
-        cls.openai_key = os.getenv('OPENAI_API_KEY')
+        cls.openai_key = os.getenv("OPENAI_API_KEY")
 
         if cls.openai_key is None:
             load_dotenv()
             cls.openai_key = os.getenv("OPENAI_API_KEY")
 
         if cls.openai_key is None:
-            Color.print("{R}OPENAI_API_KEY Not Found: {W} Please set OPENAI_API_KEY as an environmental variable or in in .env file")           
+            Color.print(
+                "{R}OPENAI_API_KEY Not Found: {W} Please set OPENAI_API_KEY as an environmental variable or in in .env file"
+            )
             cls.exit(1)
 
     @classmethod
     def create_log_dirs(cls):
-        """ Create Log Directories """
-        os.makedirs(cls.log_dir, exist_ok=True) 
-        
+        """Create Log Directories"""
+        os.makedirs(cls.log_dir, exist_ok=True)
+
         cls.create_chat_history_dir()
         cls.create_improvement_notes_dir()
         cls.create_generated_code_dir()
@@ -91,26 +93,27 @@ class Config(object):
     def create_chat_history_dir(cls):
         """Creates chat log directory"""
 
-        os.makedirs(cls.chat_history_dir, exist_ok=True) 
+        os.makedirs(cls.chat_history_dir, exist_ok=True)
 
     @classmethod
     def create_improvement_notes_dir(cls):
         """Creates chat log directory"""
 
         os.makedirs(cls.improvement_notes_dir, exist_ok=True)
-    
+
     @classmethod
     def create_generated_code_dir(cls):
         """Creates chat log directory"""
 
         os.makedirs(cls.generated_code_dir, exist_ok=True)
-    
+
     @classmethod
     def exit(cls, code=0):
         """Exit Program"""
         Color.print("\n{Y}Exiting program...")
 
         exit(code)
+
 
 ###############################################################
 

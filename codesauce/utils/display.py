@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Imports
-import os 
+import os
 
 from codesauce.utils.colors import Color
 
@@ -18,7 +18,6 @@ class Display(object):
             "   ((____   ((___/ / ((___/ / ((____   //   ) ) ((___( ( ((___( ( ((____   ((____     \n"
             "\n"
         )
-
 
         Color.print("{B}" + design)
         header = "{R}                          @hackedbyagirl {W}| {P} Hack the World\n"

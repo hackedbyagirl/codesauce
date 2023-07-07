@@ -2,6 +2,7 @@
 
 # Imports
 
+
 class FunctionInteraction:
     def __init__(self, chat_history):
         self.chat_history = chat_history

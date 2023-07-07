@@ -5,6 +5,7 @@ from codesauce.utils.cli import CLI
 from codesauce.config.config import Config
 from codesauce.utils.display import Display
 
+
 class CodeSauce(object):
     def __init__(self):
         Display.display_banner()

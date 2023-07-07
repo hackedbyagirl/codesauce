@@ -1,4 +1,4 @@
- #!/usr/bin/python3
+#!/usr/bin/python3
 
 # Define the AI function for code review
 optimize_code_func_definition = {
@@ -11,17 +11,17 @@ optimize_code_func_definition = {
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "description": "The list of files that need to be cleaning and optimized."
-                }
+                    "description": "The list of files that need to be cleaning and optimized.",
+                },
             },
-            "context": {                  
+            "context": {
                 "type": "string",
                 "description": "Context for code cleaning and optimization.",
-                "default": ""
+                "default": "",
             },
         },
-        "required": ["files"]
-    }
+        "required": ["files"],
+    },
 }
 
 generate_and_update_code_func_definition = {
@@ -32,24 +32,24 @@ generate_and_update_code_func_definition = {
         "properties": {
             "filename": {
                 "type": "string",
-                "description": "The path to file where code will be generated for."
+                "description": "The path to file where code will be generated for.",
             },
             "coding_task": {
                 "type": "string",
-                "description": "A clear description of the coding task or goal."
+                "description": "A clear description of the coding task or goal.",
             },
             "references": {
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "description": "The list of files to reference for generating code."
+                    "description": "The list of files to reference for generating code.",
                 },
                 "default": [],
-                "description": "Optional: List of files to reference while updating code."
-            }
+                "description": "Optional: List of files to reference while updating code.",
+            },
         },
-        "required": ["filename", "coding_task"]
-    }
+        "required": ["filename", "coding_task"],
+    },
 }
 
 create_new_code_func_definition = {
@@ -60,25 +60,25 @@ create_new_code_func_definition = {
         "properties": {
             "instructions": {
                 "type": "string",
-                "description": "A clear description of the content or code that should be generated for the file."
+                "description": "A clear description of the content or code that should be generated for the file.",
             },
             "filename": {
                 "type": "string",
                 "description": "Optional: The name of the file to be created.",
-                "default": "generated_code_file"
+                "default": "generated_code_file",
             },
             "references": {
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "description": "Optional: The list of files to reference for generating additional code."
+                    "description": "Optional: The list of files to reference for generating additional code.",
                 },
                 "default": [],
-                "description": "Optional: List of files to reference while generating code."
-            }
+                "description": "Optional: List of files to reference while generating code.",
+            },
         },
-        "required": ["instructions"]
-    }
+        "required": ["instructions"],
+    },
 }
 
 restructure_directory_func_definition = {
@@ -89,10 +89,10 @@ restructure_directory_func_definition = {
         "properties": {
             "instructions": {
                 "type": "string",
-                "description": "A description of directory restructuring instructions to assist the AI."
+                "description": "A description of directory restructuring instructions to assist the AI.",
             }
         },
-    }
+    },
 }
 
 annotate_code_func_definition = {
@@ -105,17 +105,17 @@ annotate_code_func_definition = {
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "description": "The list of files that need to be annotated."
-                }
+                    "description": "The list of files that need to be annotated.",
+                },
             },
-            "context": {                  
+            "context": {
                 "type": "string",
                 "description": "Context for code annotation.",
-                "default": ""
+                "default": "",
             },
         },
-        "required": ["files"]
-    }
+        "required": ["files"],
+    },
 }
 
 # Updated AI function definitions
@@ -124,5 +124,5 @@ ai_function_definitions = [
     generate_and_update_code_func_definition,
     annotate_code_func_definition,
     restructure_directory_func_definition,
-    create_new_code_func_definition
+    create_new_code_func_definition,
 ]
