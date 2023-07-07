@@ -101,7 +101,8 @@ class GenerateCode(FunctionInteraction):
         update_file_code_blocks = chunk_code(update_file)
 
         if len(update_file_code_blocks) > 1:
-            self.chat_history.append(create_chunked_prompts(self.chat_history, update_file_code_blocks, instructions, prompt_functions, ai_messages))
+            updated_chat_history = create_chunked_prompts(self.chat_history, update_file_code_blocks, instructions, prompt_functions, ai_messages)
+            self.chat_history.extend(updated_chat_history)
 
         else:
             user_prompt = build_code_generator_prompt(update_file, coding_task)
@@ -190,7 +191,10 @@ class GenerateCode(FunctionInteraction):
         ref_code_blocks = chunk_code(file_path)
 
         if len(ref_code_blocks) > 1:
-            self.chat_history.append(create_chunked_reference_prompts(self.chat_history, ref_code_blocks, ref_prompts, ai_ref_messages))
+            self.chat_history.extend(updated_chat_history)
+            
+            updated_chat_history = create_chunked_reference_prompts(self.chat_history, ref_code_blocks, ref_prompts, ai_ref_messages)
+            self.chat_history.extend(updated_chat_history)
 
         else:
             user_prompt = build_code_reference_user_prompt(ref_code_blocks[0])
