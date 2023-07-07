@@ -14,18 +14,14 @@ from codesauce.prompts.user_prompt_builder import (
     build_multi_code_generator_prompt,
     build_multi_code_generator_final_prompt,
 )
-from codesauce.prompts.code_generation_prompts import (
-    CG_SYSTEM_PROMPT,
-    CG_REF_SYSTEM_PROMPT,
-)
 from codesauce.prompts.system_prompt_builder import (
     build_ai_assistant_prompt,
-    build_code_cleaning_sys_prompt,
-    build_new_code_sys_prompt
+    build_system_prompt
 )
 from codesauce.prompts.user_prompt_builder import (
     build_code_reference_user_prompt,
     build_multi_code_reference_final_prompt,
+    build_new_code_user_prompt
 )
 
 
@@ -59,13 +55,13 @@ class GenerateCode(FunctionInteraction):
     # Function Specific Logic
     ########################################################################
     def launch_new_code_function(self):
-        """ Creates new code file """
+        """ Generates new code file """
         instructions = self.arguments["instructions"]
         new_file_name = self.arguments.get("filename")
         references = self.arguments.get("references")
 
-        if not self.process_references(references, "NC_REF_SYSTEM_PROMPT"):
-            system_prompt = build_new_code_sys_prompt(NC_REF_SYSTEM_PROMPT)
+        if not self.process_references(references, NEW_CODE_WR_PROMPT):
+            system_prompt = build_system_prompt(CODE_GEN_TASK, NEW_CODE_GEN_PROMPT)
             self.chat_history.append(system_prompt)
 
         user_prompt = build_new_code_user_prompt(instructions)
@@ -80,8 +76,6 @@ class GenerateCode(FunctionInteraction):
             "completed": True,
         }
         return function_response
-
-
 
     def launch_update_code_function(self):
         """ Updates existing code file """
@@ -103,8 +97,8 @@ class GenerateCode(FunctionInteraction):
 
 
         # Call the refactored function here and check the return value
-        if not self.process_references(references, "CG_REF_SYSTEM_PROMPT"):
-            system_prompt = build_code_cleaning_sys_prompt(CG_SYSTEM_PROMPT)
+        if not self.process_references(references, UPDATE_CODE_WR_PROMPT):
+            system_prompt = build_system_prompt(CODE_GEN_TASK, CG_SYSTEM_PROMPT)
             self.chat_history.append(system_prompt)
 
         update_file_code_blocks = chunk_code(update_file)
@@ -261,16 +255,12 @@ class GenerateCode(FunctionInteraction):
     ########################################################################
     # Helper Functions
     ########################################################################
-    def process_references(self, references, system_prompt):
+    def process_references(self, references, prompt_type):
         """ Process the references """
         # Map prompts to their respective function calls
-        prompt_mapping = {
-            "CG_REF_SYSTEM_PROMPT": build_code_cleaning_sys_prompt,
-            "NC_REF_SYSTEM_PROMPT": build_code_cleaning_sys_prompt,
-        }
 
         if references:
-            system_prompt = prompt_mapping[prompt_type](prompt_type)
+            system_prompt = build_system_prompt(CODE_GEN_TASK, prompt_type)
             self.chat_history.append(system_prompt)
 
             for ref in references:
