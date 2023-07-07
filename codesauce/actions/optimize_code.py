@@ -101,7 +101,9 @@ class OptimizeCode(FunctionInteraction):
             system_prompt = build_system_prompt(CODE_CLEAN_TASK, CLEAN_CODE_MULTI_PROMPT)
             self.chat_history.append(system_prompt)
 
-            self.chat_history.append(create_chunked_prompts(self.chat_history, update_file_code_blocks, instructions, prompt_functions, ai_messages))
+            updated_chat_history = create_chunked_prompts(self.chat_history, update_file_code_blocks, instructions, prompt_functions, ai_messages)
+            
+            self.chat_history.extend(updated_chat_history)
 
         else:
             system_prompt = build_system_prompt(CODE_CLEAN_TASK, CLEAN_CODE_GEN_PROMPT)
