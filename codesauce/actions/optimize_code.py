@@ -4,32 +4,35 @@
 import os
 import questionary
 
-from codesauce.utils.config import Config
-from codesauce.prompts.system_prompt_builder import build_system_prompt
-from codesauce.prompts.user_prompt_builder import build_code_review_prompt, build_multi_code_review_final_prompt,build_multi_code_review_prompt
-from codesauce.prompts.code_review_prompts import CR_TASK_NAME, CR_SYSTEM_PROMPT, CR_MULTI_SYSTEM_PROMPT
+from codesauce.config.config import Config
+from codesauce.prompts.system_prompt_builder import build_ai_assistant_prompt, build_code_cleaning_sys_prompt
+from codesauce.prompts.user_prompt_builder import build_code_cleaning_user_prompt, build_multi_code_cleaning_final_prompt
+from codesauce.prompts.code_clean_prompts import CC_SYSTEM_PROMPT, CC_MULTI_SYSTEM_PROMPT
+
 from codesauce.utils.colors import Color
 from codesauce.modules.general import GeneralInteraction
 
 from codesauce.functions.function_interaction import FunctionInteraction
 
-class PerformCodeReview(FunctionInteraction):
+AI_FIRST_MESSAGE = "First Message received, continue."
+AI_MESSAGE = "Message received, continue."
+
+class OptimizeCode(FunctionInteraction):
     def interact(self, arguments):
         self.arguments = arguments
         
-        Color.print("{B}Launching Code Review Function")
-        filename = self.arguments['file_path']
+        Color.print("{B}Launching Code Cleaning and Optimization...\n")
+        filenames = self.arguments['files']
+        context = self.arguments['context']
         
-        # Load the file
-        file_path = self.load_file(filename)
-        
-        # Create prompts
-        self.create_prompts(file_path)
-        
-        # Ask the AI
-        ai_response = self.ask_ai()
+        for file in filenames:
+            full_file_path = self.load_file(file)
 
-        self.save_response(ai_response, filename, file_path)
+            self.create_prompts(full_file_path)
+        
+            ai_response = self.ask_ai()
+
+            self.save_response(ai_response, file, full_file_path)
         
 
         function_response = {
@@ -55,8 +58,13 @@ class PerformCodeReview(FunctionInteraction):
 
         # If no matches were found, return an empty string
         if not matches:
-            print("No file with the specified name was found.")
-            return ""
+            Color.print("{Y} Warning: {W}No file with the specified name was found. Please select a different file.")
+
+            file_path = questionary.path(
+            "Please select intended file for cleaning and optimization",
+        ).ask()
+            
+            return file_path
 
         # If multiple matches were found, ask the user to select one
         elif len(matches) > 1:
@@ -85,32 +93,32 @@ class PerformCodeReview(FunctionInteraction):
 
         # Define the system prompt
         if len(code_blocks) > 1:
-            system_prompt = build_system_prompt(CR_TASK_NAME, CR_MULTI_SYSTEM_PROMPT)
+            system_prompt = build_code_cleaning_sys_prompt(CC_MULTI_SYSTEM_PROMPT)
             self.chat_history.append(system_prompt)
 
             # Create a user prompt for each code block
             for i, block in enumerate(code_blocks):
                 if i == 0:
-                    user_prompt = build_multi_code_review_prompt(block)
-                    ai_prompt_message = {"role": "assistant", "content": "First Message received, continue."}
+                    user_prompt = build_code_cleaning_user_prompt(block)
+                    ai_prompt_message = build_ai_assistant_prompt(AI_FIRST_MESSAGE)
 
                     self.chat_history.append(user_prompt)
                     self.chat_history.append(ai_prompt_message)
                 
                 elif i == len(code_blocks) - 1:
-                    user_prompt = build_multi_code_review_final_prompt(block)
+                    user_prompt = build_multi_code_cleaning_final_prompt(block)
                     self.chat_history.append(user_prompt)
                 
                 else:
-                    user_prompt = build_multi_code_review_prompt(block)
-                    ai_prompt_message = {"role": "assistant", "content": "Message received, continue."}
+                    user_prompt = build_code_cleaning_user_prompt(block)
+                    ai_prompt_message = build_ai_assistant_prompt("AI_MESSAGE")
 
                     self.chat_history.append(user_prompt)
                     self.chat_history.append(ai_prompt_message)
 
         else:
-            system_prompt = build_system_prompt(CR_TASK_NAME, CR_SYSTEM_PROMPT)
-            user_prompt = build_code_review_prompt(loaded_file)
+            system_prompt = build_code_cleaning_sys_prompt(CC_SYSTEM_PROMPT)
+            user_prompt = build_code_cleaning_user_prompt(loaded_file)
             
             self.chat_history.append(system_prompt)
             self.chat_history.append(user_prompt)
@@ -118,7 +126,7 @@ class PerformCodeReview(FunctionInteraction):
 
     def ask_ai(self):
         ai_bot = GeneralInteraction(self.chat_history)
-        ai_response = ai_bot.interact(self.chat_history)
+        ai_bot.interact(self.chat_history)
 
         last_ai_response = self.chat_history[-1]
         return last_ai_response
@@ -138,16 +146,20 @@ class PerformCodeReview(FunctionInteraction):
         lines = lines[1:]
         code = "\n".join(lines)
         
-        # Save the cleaned code to a new file
+        # File Saving operations
         basename, extension = os.path.splitext(filename)
-        cleaned_file_path = basename + "_cleaned" + extension
-        cleaned_file_path = os.path.join(cleaned_code_dir, cleaned_file_path)
 
-        with open(cleaned_file_path, 'w') as file:
+        cleaned_code_dir = Config.generated_code_dir
+        cleaned_code_notes_dir = Config.improvement_notes_dir
+        
+        cleaned_file_name = basename + "_cleaned" + extension
+        summary_file_name = basename + "_cleaned_summary.txt"
+
+        cleaned_file = os.path.join(cleaned_code_dir, cleaned_file_name)
+        summary_file = os.path.join(cleaned_code_notes_dir, summary_file_name)
+
+        with open(cleaned_file, 'w') as file:
             file.write(code)
 
-        # Save the suggestions and summary to a new file
-        summary_file_path = basename + "_cleaned_summary.txt"
-        summary_file_path = os.path.join(cleaned_code_dir, summary_file_path)
-        with open(summary_file_path, 'w') as file:
+        with open(summary_file, 'w') as file:
             file.write(suggestions + "\n\n" + summary)

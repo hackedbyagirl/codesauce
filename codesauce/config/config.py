@@ -2,6 +2,7 @@
 
 # Imports
 import os
+import json
 
 from dotenv import load_dotenv
 
@@ -54,6 +55,14 @@ class Config(object):
     def set_workspace_path(cls, workspace_path: str):
         """Sets workspace path"""
         cls.workspace = workspace_path
+
+    @classmethod
+    def save_chat_log(cls, chat_filename, chat_history):
+        """Saves chat log to file"""
+        chat_history_file = os.path.join(cls.chat_history_dir, chat_filename)
+
+        with open(chat_history_file, 'w') as f:
+            json.dump(chat_history, f)
         
     @classmethod
     def load_env(cls):

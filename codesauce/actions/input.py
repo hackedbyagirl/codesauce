@@ -23,10 +23,20 @@ def get_project_description():
 
 
 def get_user_question():
-    # Get question
+    Color.print("{Y}NOTE: {W}Use Ctrl-D (or Ctrl-Z on Windows) to submit question when finished.")
     Color.print("\n{G}Question: ")
-    question = input()
-    if question.lower() == "exit":
+    question = []
+    try:
+        while True:
+            user_input = input()
+            question.append(user_input)
+    except EOFError:
+        pass
+
+    results = "\n".join(question)
+
+    if results.lower() == "exit":
         return False
     else:
-        return question
+        return results
+

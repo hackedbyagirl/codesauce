@@ -1,5 +1,5 @@
-from codesauce.actions.function_call import FunctionCall
-from codesauce.actions.general_interaction import GeneralInteraction
-from codesauce.actions.understand_directory import UnderstandDirectory
+from codesauce.actions.generate_code import GenerateCode
+from codesauce.actions.optimize_code import OptimizeCode
+from codesauce.actions.restructure_directory import RestructureDirectory
 
-__all__ = ["FunctionCall", "GeneralInteraction", "UnderstandDirectory"]
+__all__ = ["GenerateCode", "OptimizeCode", "RestructureDirectory"]

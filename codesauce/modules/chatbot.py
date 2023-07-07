@@ -6,17 +6,16 @@ import questionary
 
 from datetime import datetime
 
-from codesauce.core.actions import Actions
+
 from codesauce.utils.colors import Color
+from codesauce.config.config import Config
 from codesauce.utils.display import Display
-from codesauce.prompts.user_prompt_builder import build_user_prompt
-from codesauce.core.utils import save_chat_log
-
-from codesauce.actions.function_call import FunctionCall
+from codesauce.modules.function_call import FunctionCall
+from codesauce.actions.input import get_user_question
+from codesauce.prompts.user_prompt_builder import build_user_question_prompt
 from codesauce.actions.input import get_project_description
-
 from codesauce.prompts.user_prompt_builder import build_project_user_prompt
-from codesauce.prompts.system_prompt_builder import build_project_description_prompt
+from codesauce.prompts.system_prompt_builder import build_project_description_prompt, build_ai_assistant_prompt
 
 
 class ChatBot(object):
@@ -40,8 +39,7 @@ class ChatBot(object):
 
             self.chat_history.append(proj_system_prompt)
             self.chat_history.append(proj_user_prompt)
-            
-
+            self.chat_history.append(build_ai_assistant_prompt("Thank you for providing a project description as context"))
 
     def interact(self):
         """
@@ -52,16 +50,18 @@ class ChatBot(object):
         #self.launch()
 
         # Engage in Interactive chat loop
+        # Get project Description
+        Color.print(
+            "\n{B}Instructions: {W}\n\tFeel free to provide as much detail as possible when asking questions. You are able to enter multiple lines using the 'ENTER' button."
+        )
         while True:
-            # Get question
-            Color.print("\n{G}Question: ")
-            question = input()
-            if question.lower() == "exit":
-                save_chat_log(self.chat_file, self.chat_history)
-                break
-            
+            question = get_user_question()
+            if question == False:
+                Config.save_chat_log(self.chat_file, self.chat_history)
+                Config.exit(1)
+
             # Add question to chat history
-            user_prompt = build_user_prompt(question)
+            user_prompt = build_user_question_prompt(question)
             self.chat_history.append(user_prompt)
             
             # Launch ai interaction
@@ -72,8 +72,6 @@ class ChatBot(object):
 # Helper Functions
 ########################################################################
 
-    
-    
     def request_project_description(self):
         """ Requests project description """
         Color.print(

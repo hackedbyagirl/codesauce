@@ -6,12 +6,15 @@ import json
 from time import sleep
 #from codesauce.utils.colors import Color
 from codesauce.modules.interaction import Interaction
-from codesauce.functions.definitions import ai_function_definitions
-from codesauce.functions.perform_code_review import PerformCodeReview
-from codesauce.functions.generate_code import GenerateCode
+from codesauce.functions.function_definitions import ai_function_definitions
+from codesauce.actions.optimize_code import OptimizeCode
+from codesauce.actions.generate_code import GenerateCode
+from codesauce.actions.restructure_directory import RestructureDirectory
+from codesauce.actions.annotate_code import AnnotateCode
+
 from codesauce.modules.general import GeneralInteraction
 from codesauce.functions.file_from_references import CreateFileFromReferences
-from codesauce.functions.restructure_dir import RestructureDirectory
+
 
 class FunctionCall(Interaction):
     def interact(self, messages):
@@ -38,10 +41,11 @@ class FunctionCall(Interaction):
                     function_arguments = function_call['arguments']
                     
                     available_functions = {
-                        "perform_code_review": PerformCodeReview,
-                        "generate_code": GenerateCode,
-                        "create_file_from_references": CreateFileFromReferences,
-                        "restructure_directory": RestructureDirectory
+                        "optimize_code": OptimizeCode,
+                        "generate_and_update_code": GenerateCode,
+                        "create_and_generate_code": CreateFileFromReferences,
+                        "restructure_directory": RestructureDirectory,
+                        "annotate_code": AnnotateCode,
                     }
                     
                     # Test1
