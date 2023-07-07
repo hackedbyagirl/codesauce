@@ -18,7 +18,6 @@ from codesauce.prompts.user_prompt_builder import (
     build_code_cleaning_user_prompt,
     build_multi_code_cleaning_final_prompt,
 )
-from codesauce.tools.chunk_code import chunk_code
 from codesauce.prompts.code_clean_prompts import (
     CC_SYSTEM_PROMPT,
     CC_MULTI_SYSTEM_PROMPT,
