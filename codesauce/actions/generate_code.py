@@ -190,9 +190,7 @@ class GenerateCode(FunctionInteraction):
     
         ref_code_blocks = chunk_code(file_path)
 
-        if len(ref_code_blocks) > 1:
-            self.chat_history.extend(updated_chat_history)
-            
+        if len(ref_code_blocks) > 1:            
             updated_chat_history = create_chunked_reference_prompts(self.chat_history, ref_code_blocks, ref_prompts, ai_ref_messages)
             self.chat_history.extend(updated_chat_history)
 
