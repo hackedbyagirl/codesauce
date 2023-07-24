@@ -81,7 +81,7 @@ class GenerateCode(FunctionInteraction):
         Color.print("{B}Generating Code for Existing file ...\n")
 
         update_file = self.arguments["filename"]
-        instructions = coding_task = self.arguments["coding_task"]
+        instructions = self.arguments["coding_task"]
         references = self.arguments.get("references")
         prompt_functions = {
             'initial': build_code_generator_prompt,
@@ -107,7 +107,7 @@ class GenerateCode(FunctionInteraction):
             self.chat_history.extend(updated_chat_history)
 
         else:
-            user_prompt = build_code_generator_prompt(update_file_path, coding_task)
+            user_prompt = build_code_generator_prompt(update_file_code_blocks[0], coding_task)
             self.chat_history.append(user_prompt)
 
         function_response = {
