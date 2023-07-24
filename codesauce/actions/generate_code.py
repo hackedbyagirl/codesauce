@@ -110,6 +110,10 @@ class GenerateCode(FunctionInteraction):
             user_prompt = build_code_generator_prompt(update_file_code_blocks[0], instructions)
             self.chat_history.append(user_prompt)
 
+        ai_response = self.ask_ai()
+        self.save_updated_resposne(ai_response, update_file, update_file_path)
+        
+
         function_response = {
             "actions": "Loaded file, recieved generated code, and saved response to file.",
             "completed": True,
