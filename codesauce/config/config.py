@@ -62,16 +62,15 @@ class Config(object):
 
     @classmethod
     def set_log_paths(cls):
-        cls.chat_history_dir = os.path.join(cls.log_dir,"chat_history")
-        cls.improvement_notes_dir os.path.join(cls.log_dir, "improvement_notes")
-        cls.generated_code_dir os.path.join(cls.log_dir, "generated_code")
-        cls.updated_code_dir os.path.join(cls.log_dir, "updated_code")
+        cls.chat_history_dir = os.path.join(cls.log_dir, "chat_history")
+        cls.improvement_notes_dir = os.path.join(cls.log_dir, "improvement_notes")
+        cls.generated_code_dir = os.path.join(cls.log_dir, "generated_code")
+        cls.updated_code_dir = os.path.join(cls.log_dir, "updated_code")
 
     @classmethod
     def create_log_dirs(cls):
         """Create Log Directories"""
         os.makedirs(cls.log_dir, exist_ok=True)
-
         cls.create_chat_history_dir()
         cls.create_improvement_notes_dir()
         cls.create_updated_code_dir()
