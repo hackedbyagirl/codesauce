@@ -27,6 +27,7 @@ CLEAN_CODE_MULTI_PROMPT = 'ccm_prompt'
 class OptimizeCode(FunctionInteraction):
     def interact(self, arguments):
         self.arguments = arguments
+        self.path = Config.workspace
 
         Color.print("{B}Launching Code Cleaning and Optimization...\n")
         filenames = self.arguments["files"]
@@ -56,7 +57,7 @@ class OptimizeCode(FunctionInteraction):
         """
         # Get all files in the current directory and its subdirectories
         matches = []
-        for root, dirnames, filenames in os.walk("."):
+        for root, dirnames, filenames in os.walk(self.path):
             for filename in filenames:
                 if filename == file_name:
                     matches.append(os.path.join(root, filename))
