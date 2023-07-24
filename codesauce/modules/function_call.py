@@ -43,8 +43,6 @@ class FunctionCall(Interaction):
                         "optimize_code": OptimizeCode,
                         "generate_and_update_code": GenerateCode,
                         "create_and_generate_code": GenerateCode,
-                        #"restructure_directory": RestructureDirectory,
-                        #"annotate_code": AnnotateCode,
                     }
 
                     # Test1
