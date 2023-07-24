@@ -111,9 +111,8 @@ class GenerateCode(FunctionInteraction):
             self.chat_history.append(user_prompt)
 
         ai_response = self.ask_ai()
-        self.save_updated_resposne(ai_response, update_file, update_file_path)
-        
-
+        self.save_updated_resposne(ai_response, update_file)
+    
         function_response = {
             "actions": "Loaded file, recieved generated code, and saved response to file.",
             "completed": True,
@@ -207,13 +206,9 @@ class GenerateCode(FunctionInteraction):
             self.chat_history.append(user_prompt)
             self.chat_history.append(ai_prompt_message)
 
-    def save_updated_response(self, ai_response: dict, filename: str, file_path: str):
+    def save_updated_response(self, ai_response: dict, filename: str):
         content = ai_response["content"]
 
-        updated_file = content.split("```")[0]
-        updated_file = updated_file.replace(
-            "FILE_NAME", "Updated File Path: " + file_path
-        )
         summary = content.split("```")[2]
 
         code = content.split("```")[1]
@@ -224,20 +219,20 @@ class GenerateCode(FunctionInteraction):
         # File Saving operations
         basename, extension = os.path.splitext(filename)
 
-        generated_code_dir = Config.updated_code_dir
-        generated_code_notes_dir = Config.improvement_notes_dir
+        cleaned_code_dir = Config.generated_code_dir
+        cleaned_code_notes_dir = Config.improvement_notes_dir
 
-        generated_file_name = basename + "_updated" + extension
-        summary_file_name = basename + "_updated_summary.txt"
+        cleaned_file_name = basename + "_cleaned" + extension
+        summary_file_name = basename + "_cleaned_summary.txt"
 
-        generated_file = os.path.join(generated_code_dir, generated_file_name)
-        summary_file = os.path.join(generated_code_notes_dir, summary_file_name)
+        cleaned_file = os.path.join(cleaned_code_dir, cleaned_file_name)
+        summary_file = os.path.join(cleaned_code_notes_dir, summary_file_name)
 
-        with open(generated_file, "w") as file:
+        with open(cleaned_file, "w") as file:
             file.write(code)
 
         with open(summary_file, "w") as file:
-            file.write(updated_file + "\n\n" + summary)
+            file.write(suggestions + "\n\n" + summary)
 
     def save_new_code(self, ai_response: dict, filename: str = None):
         content = ai_response["content"]
