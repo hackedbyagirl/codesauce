@@ -41,45 +41,31 @@ class Config(object):
 
         # Chatbot
         cls.chatbot_name = "CodeSauce"
-        cls.log_dir = "logs"
-        cls.chat_history_dir = "logs/chat_history"
-        cls.improvement_notes_dir = "logs/improvement_notes"
-        cls.generated_code_dir = "logs/generated_code"
-        cls.updated_code_dir = "logs/updated_code"
+        cls.log_dir = None
+        cls.chat_history_dir = None
+        cls.improvement_notes_dir = None
+        cls.generated_code_dir = None
+        cls.updated_code_dir = None
 
         # Will overwrite provided variables above
         cls.load_env()
-        cls.create_log_dirs()
 
     ############################################
     @classmethod
     def set_workspace_path(cls, workspace_path: str):
         """Sets workspace path"""
         cls.workspace = workspace_path
+        cls.log_dir = os.path.join(cls.workspace, 'codesuace_logs')
+        cls.set_log_paths()
+        cls.create_log_dirs()
+        
 
     @classmethod
-    def save_chat_log(cls, chat_filename, chat_history):
-        """Saves chat log to file"""
-        chat_history_file = os.path.join(cls.chat_history_dir, chat_filename)
-
-        with open(chat_history_file, "w") as f:
-            json.dump(chat_history, f)
-
-    @classmethod
-    def load_env(cls):
-        """Gets Environmental Variables"""
-
-        cls.openai_key = os.getenv("OPENAI_API_KEY")
-
-        if cls.openai_key is None:
-            load_dotenv()
-            cls.openai_key = os.getenv("OPENAI_API_KEY")
-
-        if cls.openai_key is None:
-            Color.print(
-                "{R}OPENAI_API_KEY Not Found: {W} Please set OPENAI_API_KEY as an environmental variable or in in .env file"
-            )
-            cls.exit(1)
+    def set_log_paths(cls):
+        cls.chat_history_dir = os.path.join(cls.log_dir,"chat_history")
+        cls.improvement_notes_dir os.path.join(cls.log_dir, "improvement_notes")
+        cls.generated_code_dir os.path.join(cls.log_dir, "generated_code")
+        cls.updated_code_dir os.path.join(cls.log_dir, "updated_code")
 
     @classmethod
     def create_log_dirs(cls):
@@ -114,6 +100,30 @@ class Config(object):
         """Creates chat log directory"""
 
         os.makedirs(cls.generated_code_dir, exist_ok=True)
+
+    @classmethod
+    def save_chat_log(cls, chat_filename, chat_history):
+        """Saves chat log to file"""
+        chat_history_file = os.path.join(cls.chat_history_dir, chat_filename)
+
+        with open(chat_history_file, "w") as f:
+            json.dump(chat_history, f)
+
+    @classmethod
+    def load_env(cls):
+        """Gets Environmental Variables"""
+
+        cls.openai_key = os.getenv("OPENAI_API_KEY")
+
+        if cls.openai_key is None:
+            load_dotenv()
+            cls.openai_key = os.getenv("OPENAI_API_KEY")
+
+        if cls.openai_key is None:
+            Color.print(
+                "{R}OPENAI_API_KEY Not Found: {W} Please set OPENAI_API_KEY as an environmental variable or in in .env file"
+            )
+            cls.exit(1)
 
     @classmethod
     def exit(cls, code=0):
