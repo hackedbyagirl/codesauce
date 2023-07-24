@@ -39,6 +39,7 @@ NEW_CODE_WR_PROMPT = 'ncgwr_prompt'
 class GenerateCode(FunctionInteraction):
     def interact(self, arguments):
         self.arguments = arguments
+        self.path = Config.workspace
 
         # Check to see if instructions key exists
         if "instructions" in self.arguments:
@@ -123,7 +124,7 @@ class GenerateCode(FunctionInteraction):
         """
         # Get all files in the current directory and its subdirectories
         matches = []
-        for root, dirnames, filenames in os.walk("."):
+        for root, dirnames, filenames in os.walk(self.path):
             for filename in filenames:
                 if filename == file_name:
                     matches.append(os.path.join(root, filename))
