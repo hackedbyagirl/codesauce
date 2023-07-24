@@ -120,7 +120,6 @@ annotate_code_definition = {
 function_definitions = [
     optimize_code_definition,
     generate_and_update_code_definition,
-    annotate_code_definition,
     restructure_directory_definition,
     create_new_code_definition,
 ]
