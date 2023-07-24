@@ -93,20 +93,21 @@ class GenerateCode(FunctionInteraction):
             'initial': "AI_FIRST_MESSAGE",
             'intermediate': "AI_INTERMEDIATE_MESSAGE",
         }
+        update_file_path = self.load_file(update_file)
 
         # Call the refactored function here and check the return value
         if not self.process_references(references, UPDATE_CODE_WR_PROMPT):
             system_prompt = build_system_prompt(CODE_GEN_TASK, UPDATE_CODE_GEN_PROMPT)
             self.chat_history.append(system_prompt)
 
-        update_file_code_blocks = chunk_code(update_file)
+        update_file_code_blocks = chunk_code(update_file_path)
 
         if len(update_file_code_blocks) > 1:
             updated_chat_history = create_chunked_prompts(self.chat_history, update_file_code_blocks, instructions, prompt_functions, ai_messages)
             self.chat_history.extend(updated_chat_history)
 
         else:
-            user_prompt = build_code_generator_prompt(update_file, coding_task)
+            user_prompt = build_code_generator_prompt(update_file_path, coding_task)
             self.chat_history.append(user_prompt)
 
         function_response = {
